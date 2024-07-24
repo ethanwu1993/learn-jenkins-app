@@ -79,9 +79,6 @@ pipeline {
                     reuseNode true
                 }
             }
-            environment {
-                CI_ENVIRONMENT_URL = 'https://gorgeous-faun-613b57.netlify.app'
-            }
             steps {
                 sh '''
             npm install netlify-cli
@@ -98,6 +95,9 @@ pipeline {
                     image 'mcr.microsoft.com/playwright:v1.39.0-jammy'
                     reuseNode true
                 }
+            }
+            environment {
+                CI_ENVIRONMENT_URL = 'https://gorgeous-faun-613b57.netlify.app'
             }
             steps {
                 sh '''
