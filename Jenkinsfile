@@ -4,7 +4,7 @@ pipeline {
     environment {
         NETLIFY_SITE_ID = 'f0865f8e-d704-4be1-a319-0d9eaea9e41f'
         NETLIFY_AUTH_TOKEN = credentials('netlify-token')
-        REACT_APP_VERSION = '1.2.3'
+        REACT_APP_VERSION = '1.0.$BUILD_ID'
     }
 
     stages {
@@ -27,7 +27,7 @@ pipeline {
                   ls -la
                 '''
             }
-        } 
+        }
         stage('Tests') {
             parallel {
                 stage('Unit Test') {
@@ -39,9 +39,9 @@ pipeline {
                     }
                     steps {
                         sh '''
-              #test -f build/index.html
-              npm test
-            '''
+                        #test -f build/index.html
+                        npm test
+                        '''
                     }
                     post {
                         always {
@@ -88,8 +88,8 @@ pipeline {
                     node_modules/.bin/netlify --version
                     echo "Deploy to staging. Site ID: $NETLIFY_SITE_ID"
                     node_modules/.bin/netlify status
-                    CI_ENVIRONMENT_URL=$(node_modules/.bin/node-jq -r '.deploy_url' deploy-out.json)
                     node_modules/.bin/netlify deploy --dir=build --json > deploy-out.json
+                    CI_ENVIRONMENT_URL=$(node_modules/.bin/node-jq -r '.deploy_url' deploy-out.json)
                     npx playwright test --reporter=html
                    '''
             }
